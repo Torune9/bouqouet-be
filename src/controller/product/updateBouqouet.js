@@ -1,40 +1,71 @@
-const { Bouqouet } = require("../../database/models");
+const { Bouqouet, sequelize } = require("../../database/models");
+const deleteFiles = require("../../services/utils/deleteFile");
 
 const updateBouqouet = async (req, res) => {
+    const transaction = await sequelize.transaction();
     try {
         const { id } = req.params;
-        const { name, price, stock, description, categoryId } = req.body;
-        const bouqouet = await Bouqouet.findByPk(id);
+        const { name, price, stock, description, categoryId, replaceImages } =
+            req.body;
+
+        const bouqouet = await Bouqouet.findByPk(id, { transaction });
 
         if (!bouqouet) {
-            return res.status(404).json({
-                message: "Bouqouet tidak ditemukan",
-            });
+            await transaction.rollback();
+            return res.status(404).json({ message: "Bouquet tidak ditemukan" });
         }
 
-        const file = req?.files?.["image"]?.map((file) => file.filename);
-        let fileName = file ? JSON.stringify(file) : bouqouet.image;
+        let currentImages = bouqouet.image || [];
 
-        
-        bouqouet.image = fileName;
-        bouqouet.name = name !== "" ? name ?? bouqouet.name : bouqouet.name;
-        bouqouet.price = price !== "" ? price ?? bouqouet.price : bouqouet.price;
-        bouqouet.stock = stock !== "" ? stock ?? bouqouet.stock : bouqouet.stock;
-        bouqouet.description = description !== "" ? description ?? bouqouet.description : bouqouet.description;
-        bouqouet.categoryId = categoryId !== "" ? categoryId ?? bouqouet.categoryId : bouqouet.categoryId;
+        const replaceImagesObj = replaceImages ? JSON.parse(replaceImages) : {};
 
-        await bouqouet.save();
+        const newFiles = req?.files?.["image"]
+            ? req.files["image"].map((file) => file.filename)
+            : [];
+        const imagesToDelete = [];
+
+        Object.entries(replaceImagesObj).forEach(([index, newFileName], i) => {
+            const idx = parseInt(index);
+
+            if (idx >= 0 && idx < currentImages.length) {
+                imagesToDelete.push(currentImages[idx]);
+                currentImages[idx] = newFiles[i] || newFileName;
+            }
+        });
+
+        if (imagesToDelete.length > 0) {
+            deleteFiles(imagesToDelete);
+        }
+
+        await bouqouet.update(
+            {
+                name: name?.trim() || bouqouet.name,
+                price: price !== "" ? price ?? bouqouet.price : bouqouet.price,
+                stock: stock !== "" ? stock ?? bouqouet.stock : bouqouet.stock,
+                description: description.trim(),
+                categoryId:
+                    categoryId !== ""
+                        ? categoryId ?? bouqouet.categoryId
+                        : bouqouet.categoryId,
+                image: currentImages,
+            },
+
+            { transaction }
+        );
+
+        await transaction.commit();
 
         return res.json({
             message: "Bouquet berhasil diupdate",
-            data: bouqouet
+            data: bouqouet,
         });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: "Error ketika update bouquet dari server",
-            error: error.message
-        });
+        await transaction.rollback();
+        deleteFiles(req?.files?.["image"]?.map((file) => file.filename));
+
+        return res
+            .status(500)
+            .json({ message: "Error update bouquet", error: error });
     }
 };
 
