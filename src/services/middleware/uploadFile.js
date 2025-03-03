@@ -4,9 +4,19 @@ const path = require("path")
 const maxSize = 5 * 1024 * 1024; // 5MB
 
 
-const storage = multer.diskStorage({
+const storageBouqouetImage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "src/assets/uploads");
+        cb(null, "src/assets/bouqouets");
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+    },
+});
+
+const storageProfileImage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "src/assets/peofiles");
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -15,9 +25,8 @@ const storage = multer.diskStorage({
 });
 
 
-
-const upload = multer({
-    storage: storage,
+const uploadImageProduct = multer({
+    storage: storageBouqouetImage,
     limits : {
         fileSize : maxSize
     },
@@ -35,4 +44,24 @@ const upload = multer({
     }
  }).fields([{name : 'image',maxCount : 5}]);
 
-module.exports = upload
+
+const uploadImageProfile = multer({
+    storage: storageProfileImage,
+    limits : {
+        fileSize : maxSize
+    },
+    fileFilter : (req,file,cb)=>{
+        const filetypes = /jpg|jpeg|png/
+        const mimetype = filetypes.test(file.mimetype)
+        
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
+
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+
+        cb("Error: File upload only supports the following filetypes - " + filetypes);
+    }
+ }).single('image');
+
+module.exports = {uploadImageProduct,uploadImageProfile}
