@@ -16,7 +16,7 @@ const storageBouqouetImage = multer.diskStorage({
 
 const storageProfileImage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "src/assets/peofiles");
+        cb(null, "src/assets/profiles");
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
