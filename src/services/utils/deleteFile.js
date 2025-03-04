@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const deleteFiles = (files,dir="uploads") => {
+const deleteFiles = (files,dir) => {
     if (!files || files.length === 0) return;
 
     files.forEach((filename) => {
