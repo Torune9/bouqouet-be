@@ -6,7 +6,7 @@ const categoryRouter = require('./routes/categoryRouter.js')
 
 const mainRouter = express.Router()
 
-mainRouter.use('/users', userRouter)
+mainRouter.use('/user', userRouter)
 mainRouter.use('/category',categoryRouter)
 mainRouter.use('/bouqouet', bouqouetRouter)
 
