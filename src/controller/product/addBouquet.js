@@ -14,7 +14,7 @@ const addBouqouet = async (req, res) => {
         const category = await Category.findByPk(validated["categoryId"]);
 
         if (!category) {
-            deleteFiles(file);
+            deleteFiles(file,"bouqouets");
             return res.status(404).json({
                 message: "Kategori tidak ditemukan",
             });
