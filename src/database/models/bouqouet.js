@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     categoryId: DataTypes.UUID
   }, {
     sequelize,
+    paranoid : true,
     modelName: 'Bouqouet',
   });
   return Bouqouet;
