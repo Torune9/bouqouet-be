@@ -34,7 +34,7 @@ const updateBouqouet = async (req, res) => {
         });
 
         if (imagesToDelete.length > 0) {
-            deleteFiles(imagesToDelete);
+            deleteFiles(imagesToDelete,"bouqouets");
         }
 
         await bouqouet.update(
@@ -61,7 +61,7 @@ const updateBouqouet = async (req, res) => {
         });
     } catch (error) {
         await transaction.rollback();
-        deleteFiles(req?.files?.["image"]?.map((file) => file.filename));
+        deleteFiles(req?.files?.["image"]?.map((file) => file.filename),"bouqouets");
 
         return res
             .status(500)
