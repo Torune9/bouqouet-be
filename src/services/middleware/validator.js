@@ -1,7 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-// validasi data login
-const validated = (req, res, next) => {
+const validated = (req, res, next) => {    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -9,6 +8,7 @@ const validated = (req, res, next) => {
     next();
 }
 
+// validasi data login
 const validateLogin = [
     body("email")
         .notEmpty()
