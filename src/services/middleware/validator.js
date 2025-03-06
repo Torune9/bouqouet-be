@@ -31,7 +31,7 @@ const validateProfile = [
     validated
 ];
 
-// alidasi data produk
+// validasi data produk
 const validateBouqouet = [
     body("name")
         .notEmpty()
@@ -46,9 +46,16 @@ const validateBouqouet = [
     validated
 ];
 
+// validasi data address
+const validateAddress =[
+    body(["street","district","city","postalCode","province"]).trim()
+    .notEmpty().escape().withMessage("field tidak boleh kosong"),
+    validated
+]
 module.exports = {
     validateLogin,
     validateRegister,
     validateProfile,
     validateBouqouet,
+    validateAddresss
 };
