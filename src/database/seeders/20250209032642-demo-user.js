@@ -12,7 +12,7 @@ module.exports = {
           username: 'admin',
           email: 'admin@mail.com',
           password: encryptPassword('admin1234'),
-          role_id: Sequelize.literal('gen_random_uuid()'),
+          roleId: Sequelize.literal('gen_random_uuid()'),
           createdAt : new Date(),
           updatedAt : new Date(),
         },
