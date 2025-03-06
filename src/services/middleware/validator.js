@@ -57,5 +57,5 @@ module.exports = {
     validateRegister,
     validateProfile,
     validateBouqouet,
-    validateAddresss
+    validateAddress
 };
