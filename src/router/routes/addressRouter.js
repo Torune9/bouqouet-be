@@ -6,7 +6,7 @@ const deleteAddress = require('../../controller/address/deleteAddress')
 
 const addressRouter = express.Router()
 
-addressRouter.get('/',getAddress)
+addressRouter.get('/:id',getAddress)
 
 addressRouter.post('/',createAddress)
 
