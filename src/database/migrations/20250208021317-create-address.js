@@ -9,6 +9,9 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue : Sequelize.literal('gen_random_uuid()')
       },
+      userId :{
+        type : Sequelize.UUID
+      },
       street: {
         type: Sequelize.STRING(100)
       },
