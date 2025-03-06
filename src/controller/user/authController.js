@@ -12,7 +12,7 @@ const signIn = async (req, res) => {
         const validated = matchedData(req);
 
         const user = await User.findOne({
-            attributes: ["id", "username", "email", "role_id", "password"],
+            attributes: ["id", "username", "email", "roleId", "password"],
             where: {
                 email: validated.email,
             },
