@@ -13,7 +13,8 @@ const createAddress = async (req, res) => {
             })
         }
         return res.json({
-            message : "alamat berhasil ditambhkan"
+            message : "alamat berhasil ditambhkan",
+            data : address
         })
     } catch (error) {
         return res.status(500).json({
