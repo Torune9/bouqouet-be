@@ -10,6 +10,7 @@ const urlEncode = express.urlencoded({
     extended : true
 })
 
+app.use(express.json())
 app.use(urlEncode)
 
 app.use('/api/v1/',mainRouter)
