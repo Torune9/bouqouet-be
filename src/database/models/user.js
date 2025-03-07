@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       this.hasOne(Profile,{
-        sourceKey : 'id'
+        foreignKey : 'userId'
       })
 
       this.hasMany(Address,{
