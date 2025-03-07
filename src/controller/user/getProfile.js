@@ -3,7 +3,11 @@ const { Profile } = require("../../database/models");
 const getProfile = async (req,res)=>{
     try {
         const {id} = req.params
-        const profile = await Profile.findByPk(id)
+        const profile = await Profile.findOne({
+            where :{
+                userId : id
+            }
+        })
         if (!profile) {
             return res.status(404).json({
                 message :"gagal mendapatkan data profile,profile tidak ditemukan" 
