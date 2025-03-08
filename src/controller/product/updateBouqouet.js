@@ -21,17 +21,22 @@ const updateBouqouet = async (req, res) => {
             imageId,
         } = req.body;
 
-        // Pastikan imageId adalah array
-        if (typeof imageId === "string") {
+        // FIX: Pastikan `imageId` tidak `undefined` atau string kosong sebelum digunakan
+        if (!imageId || imageId === "undefined") {
+            imageId = [];
+        } else if (typeof imageId === "string") {
             try {
-                imageId = JSON.parse(imageId); // Jika berbentuk string array, ubah ke array asli
+                imageId = JSON.parse(imageId);
+                if (!Array.isArray(imageId)) {
+                    imageId = [imageId];
+                }
             } catch (error) {
-                imageId = [imageId]; // Jika bukan array, jadikan array biasa
+                imageId = [imageId];
             }
         }
-        imageId = Array.isArray(imageId)
-            ? imageId.map(String)
-            : [String(imageId)]; // Pastikan dalam bentuk array string
+
+        // FIX: Pastikan `imageId` adalah array string & tidak mengandung 'undefined'
+        imageId = imageId.filter(id => id && id !== "undefined").map(String);
 
         const bouqouet = await Bouqouet.findByPk(id, {
             include: ImageBouqouet,
@@ -43,13 +48,17 @@ const updateBouqouet = async (req, res) => {
             return res.status(404).json({ message: "Bouquet tidak ditemukan" });
         }
 
-        const imagesToUpdate = await ImageBouqouet.findAll({
-            where: {
-                id: { [Op.in]: imageId },
-                bouqouetId,
-            },
-            transaction,
-        });
+        // FIX: Hanya jalankan query `findAll` jika `imageId` tidak kosong
+        let imagesToUpdate = [];
+        if (imageId.length > 0) {
+            imagesToUpdate = await ImageBouqouet.findAll({
+                where: {
+                    id: { [Op.in]: imageId },
+                    bouqouetId,
+                },
+                transaction,
+            });
+        }
 
         // Upload gambar baru ke Cloudinary jika ada
         let imageUrls = [];
@@ -79,11 +88,10 @@ const updateBouqouet = async (req, res) => {
         // Jika ada gambar yang ingin diperbarui
         if (newFiles.length > 0 && imageId.length > 0) {
             if (imagesToUpdate.length > 0) {
-                // Hapus gambar lama dari Cloudinary dengan public_id
+                // Hapus gambar lama dari Cloudinary
                 const deletePromises = imagesToUpdate.map((img) => {
-                    const publicId = img.path.split("/").pop().split(".")[0];
-                     // Ambil public_id dari URL Cloudinary
-                    return cloudinary.v2.uploader.destroy(publicId);
+                    const publicId = img.path.split("/").pop().split(".")[0]; 
+                    return cloudinary.uploader.destroy(publicId);
                 });
                 await Promise.all(deletePromises);
 
