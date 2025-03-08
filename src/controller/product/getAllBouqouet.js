@@ -1,8 +1,10 @@
-const {Bouqouet} = require('../../database/models')
+const {Bouqouet,ImageBouqouet} = require('../../database/models')
 
 const getAllBouqouet = async (req,res)=>{
     try {
-        const bouqouets = await Bouqouet.findAll()
+        const bouqouets = await Bouqouet.findAll({
+            include : ImageBouqouet
+        })
         return res.status(200).json({
             message : "berhasil mendapatkan list data bouqouet",
             data : bouqouets
