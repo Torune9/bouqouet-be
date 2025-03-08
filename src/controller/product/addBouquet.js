@@ -31,7 +31,7 @@ const addBouqouet = async (req, res) => {
 
         if (files) {
             const uploadPromises = files.map((file) =>
-                cloudinary.uploader.upload(file, { folder: "bouqouets" })
+                cloudinary.v2.uploader.upload(file, { folder: "bouqouets" })
             );
             const uploadResults = await Promise.all(uploadPromises);
             var imageUrls = uploadResults.map((result) => result.secure_url);
