@@ -22,7 +22,13 @@ module.exports = {
         type: Sequelize.TEXT
       },
       categoryId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        allowNull : true,
+        references : {
+          model : "Categories",
+          key: 'id'
+        },
+        onDelete : 'SET NULL'
       },
       createdAt: {
         allowNull: false,
