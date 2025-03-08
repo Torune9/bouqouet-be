@@ -11,7 +11,7 @@ const mainRouter = express.Router()
 mainRouter.use('/user', userRouter)
 mainRouter.use('/user/address', addressRouter)
 mainRouter.use('/category',categoryRouter)
-mainRouter.use('/bouqouet', bouqouetRouter)
+mainRouter.use('/bouquet', bouqouetRouter)
 mainRouter.use('/order', orderRouter)
 
 module.exports = mainRouter
