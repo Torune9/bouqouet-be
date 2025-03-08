@@ -1,12 +1,14 @@
-const { Bouqouet, sequelize } = require("../../database/models");
-const deleteFiles = require("../../services/utils/deleteFile");
+const { Bouqouet, ImageBouqouet, sequelize } = require("../../database/models");
+const { cloudinary } = require("../../services/utils/cloudinary");
 
 const deleteBouqouet = async (req, res) => {
     const transaction = await sequelize.transaction();
     try {
         const { id } = req.params;
-        const {force} = req.query
-        const bouqouet = await Bouqouet.findByPk(id);
+        const { force } = req.query;
+        const bouqouet = await Bouqouet.findByPk(id, {
+            include: ImageBouqouet,
+        });
 
         if (!bouqouet) {
             return res.status(404).json({
@@ -14,16 +16,20 @@ const deleteBouqouet = async (req, res) => {
             });
         }
 
-        
+        const images = bouqouet.ImageBouqouets;
+
         if (force) {
-            if (bouqouet.image) { 
-                deleteFiles(bouqouet.image,"bouqouets"); 
+            if (images) {
+                for (const image of images) {
+                    const publicId = image.path.split("/").pop().split(".")[0];
+                    await cloudinary.v2.uploader.destroy(publicId);
+                }
             }
-            await bouqouet.destroy({ 
+            await bouqouet.destroy({
                 transaction,
-                force
+                force,
             });
-        }else{     
+        } else {
             await bouqouet.destroy({ transaction });
         }
         await transaction.commit();
