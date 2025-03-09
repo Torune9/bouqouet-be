@@ -12,6 +12,11 @@ module.exports = {
       "Roles",
       [
         {
+          name : 'super admin',
+          createdAt : new Date(),
+          updatedAt : new Date(),
+        },
+        {
           name : 'admin',
           createdAt : new Date(),
           updatedAt : new Date(),
