@@ -5,7 +5,7 @@ const {
     encryptPassword,
 } = require("../../services/utils/validatePassword");
 
-const { User } = require("../../database/models");
+const { User,Role } = require("../../database/models");
 
 const signIn = async (req, res) => {
     try {
@@ -16,6 +16,10 @@ const signIn = async (req, res) => {
             where: {
                 email: validated.email,
             },
+            include : {
+                model : Role,
+                attributes : ['name','id']
+            }
         });
 
         if (!user) {
@@ -33,8 +37,7 @@ const signIn = async (req, res) => {
             id: user.id,
             username: user.username,
             email: user.email,
-            role: user.role_id,
-        };
+        };        
 
         if (!validPassword) {
             return res.status(400).json({
@@ -42,7 +45,11 @@ const signIn = async (req, res) => {
             });
         }
 
-        const token = generateJwt(detailUser);
+        const token = generateJwt({
+            ...detailUser,
+            roleName : user.Role.name,
+            roleId: user.Role.id
+        });
 
         return res.status(200).json({
             message: "login berhasil",
@@ -65,11 +72,19 @@ const signUp = async (req, res) => {
             email: validated.email,
             password: encryptPassword(validated.password),
         };
+        const role = await Role.findOne({
+            where : {
+                name : "user"
+            }
+        })
         const [user, created] = await User.findOrCreate({
             where: {
                 email: validated.email,
             },
-            defaults: payload,
+            defaults: {
+                ...payload,
+                roleId : role.id
+            },
         });
 
         if (created) {
