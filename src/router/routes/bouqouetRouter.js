@@ -13,11 +13,17 @@ const deleteBouqouet = require("../../controller/product/deleteBouqouet");
 const getDetailBouqouet = require("../../controller/product/detailBouqouet");
 const deleteBouquetImage = require("../../controller/product/deleteBouqouetImage");
 const addImageBouquet = require("../../controller/product/addImageBouquet");
+const authenticate = require("../../services/middleware/authenticate");
+const authorized = require("../../services/middleware/authorization");
 
 
 bouqouetRouter.get("/",getAllBouqouet);
 
+bouqouetRouter.use(authenticate)
+
 bouqouetRouter.get("/:id",getDetailBouqouet);
+
+bouqouetRouter.use(authorized)
 
 bouqouetRouter.post("/",uploadImageProduct,validateBouqouet,addBouqouet);
 
