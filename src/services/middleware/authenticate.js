@@ -7,13 +7,11 @@ const authenticate = (req, res, next) => {
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res
                 .status(401)
-                .json({ message: "Not authorized" });
+                .json({ message: "Not authenticate" });
         }
         const token = authHeader.split(" ")[1];
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-         console.log("wkwkw",decoded);
-         
             if (err) {
                 return res.status(403).json({ message: "Token invalid" });
             }
