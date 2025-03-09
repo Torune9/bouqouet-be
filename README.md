@@ -3,9 +3,9 @@
 is an e-commerce and __personal project__ to practice skills in the field of web programming, this e-commerce focuses on selling __flower bouquets__.
 
 ##### Don't forget for
-<code>
+`
 npm install
-</code>
+`
 
 ## Techstack
     1. Node js
@@ -24,22 +24,22 @@ npm install
     7. Order Bouquets
 
 ## Main command
-1.  <code>
+1.  `
         npm start 
-    </code> for running apps in port 3000
-2. <code>
+    ` for running apps in port 3000
+2. `
     npm run migrate:up
-    </code> for running all migration 
-3. <code>
+    ` for running all migration 
+3. `
     npm run migrate:down
-    </code> for undo all migration 
-4. <code>
+    ` for undo all migration 
+4. `
     npm run migrate:fresh
-    </code> for run migrate:up and migrate:down 
-5. <code>
+    ` for run migrate:up and migrate:down 
+5. `
     npm run seed:up
-    </code> for running all seeder
-6. <code>
+    ` for running all seeder
+6. `
     npm run seed:down
-    </code> for undo all seeder
+    ` for undo all seeder
      
