@@ -5,9 +5,13 @@ const mainRouter = require("./src/router/main");
 const app = express();
 const port = 3000;
 
+const cors = require('cors')
+
 const urlEncode = express.urlencoded({
     extended: true,
 });
+
+app.use(cors())
 
 app.use(express.json());
 
