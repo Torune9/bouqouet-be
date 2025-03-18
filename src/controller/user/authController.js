@@ -28,10 +28,13 @@ const signIn = async (req, res) => {
             });
         }
 
-        const validPassword = decryptPassword(
+        const validPassword = await decryptPassword(
             validated.password,
             user.password
         );
+
+        console.log(validPassword);
+        
 
         const detailUser = {
             id: user.id,
