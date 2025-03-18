@@ -95,7 +95,7 @@ const signUp = async (req, res) => {
                 message: "register berhasil",
             });
         } else {
-            return res.status(200).json({
+            return res.status(409).json({
                 message: "email sudah terpakai",
             });
         }
