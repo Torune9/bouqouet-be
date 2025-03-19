@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ImageBouqouets', {
+    await queryInterface.createTable('ImageBouquets', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      bouqouetId: {
+      bouquetId: {
         type: Sequelize.UUID,
         references : {
           model : "Bouquets",
@@ -31,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ImageBouqouets');
+    await queryInterface.dropTable('ImageBouquets');
   }
 };

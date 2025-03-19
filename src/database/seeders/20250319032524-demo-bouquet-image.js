@@ -20,7 +20,7 @@ module.exports = {
 
       for (let i = 0; i < numberOfImages; i++) {
         imageBouquetsData.push({
-          bouqouetId: bouquet.id,
+          bouquetId: bouquet.id,
           path: `https://placehold.co/${faker.number.int({ min: 400, max: 800 })}x${faker.number.int({ min: 400, max: 800 })}`, 
           createdAt: new Date(),
           updatedAt: new Date()
@@ -28,12 +28,12 @@ module.exports = {
       }
     });
 
-    await queryInterface.bulkInsert('ImageBouqouets', imageBouquetsData, {});
-    console.log('Seeder ImageBouqouets berhasil dijalankan.');
+    await queryInterface.bulkInsert('ImageBouquets', imageBouquetsData, {});
+    console.log('Seeder ImageBouquets berhasil dijalankan.');
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('ImageBouqouets', null, {});
-    console.log('Seeder ImageBouqouets berhasil dihapus.');
+    await queryInterface.bulkDelete('ImageBouquets', null, {});
+    console.log('Seeder ImageBouquets berhasil dihapus.');
   }
 };

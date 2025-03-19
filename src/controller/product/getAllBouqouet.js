@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const {Bouqouet,ImageBouqouet} = require('../../database/models')
+const {Bouquet,ImageBouquet} = require('../../database/models')
 
 const getAllBouqouet = async (req,res)=>{
     try {
@@ -24,19 +24,19 @@ const getAllBouqouet = async (req,res)=>{
         
         const order = sortOptions[req.query.sortBy] || [['createdAt', 'DESC']];
 
-        const bouqouets = await Bouqouet.findAll({
+        const bouqouets = await Bouquet.findAll({
             where: whereCondition, 
-            include: [{ model: ImageBouqouet }],
+            include: [{ model: ImageBouquet }],
             order
         });
 
         return res.status(200).json({
-            message : "berhasil mendapatkan list data bouqouet",
+            message : "berhasil mendapatkan list data bouquet",
             data : bouqouets
         })
     } catch (error) {
         return res.status(500).json({
-            message : "error ketika mendapatkan list bouqouet",
+            message : "error ketika mendapatkan list bouquet",
             errors : error.message
         })
     }

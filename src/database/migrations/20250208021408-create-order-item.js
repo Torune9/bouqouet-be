@@ -12,7 +12,7 @@ module.exports = {
       orderId: {
         type: Sequelize.UUID,
       },
-      bouqouetId: {
+      bouquetId: {
         type: Sequelize.UUID
       },
       quantity: {
