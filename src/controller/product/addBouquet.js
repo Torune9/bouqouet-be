@@ -1,7 +1,7 @@
 const {
-    Bouqouet,
+    Bouquet,
     Category,
-    ImageBouqouet,
+    ImageBouquet,
     sequelize,
 } = require("../../database/models");
 const { matchedData } = require("express-validator");
@@ -25,7 +25,7 @@ const addBouqouet = async (req, res) => {
             });
         }
 
-        const bouqouet = await Bouqouet.create(validated, {
+        const bouqouet = await Bouquet.create(validated, {
             transaction,
         });
 
@@ -41,7 +41,7 @@ const addBouqouet = async (req, res) => {
                 bouqouetId: bouqouet.id,
                 path: path,
             }));
-            var image = await ImageBouqouet.bulkCreate(temp, { transaction });
+            var image = await ImageBouquet.bulkCreate(temp, { transaction });
         }
 
         files ? deleteFiles(files, "bouqouets") : "";

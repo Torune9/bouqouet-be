@@ -1,4 +1,4 @@
-const { Bouqouet, ImageBouqouet, sequelize } = require("../../database/models");
+const { Bouquet, ImageBouquet, sequelize } = require("../../database/models");
 const { cloudinary } = require("../../services/utils/cloudinary");
 
 const deleteBouqouet = async (req, res) => {
@@ -6,8 +6,8 @@ const deleteBouqouet = async (req, res) => {
     try {
         const { id } = req.params;
         const { force } = req.query;
-        const bouqouet = await Bouqouet.findByPk(id, {
-            include: ImageBouqouet,
+        const bouqouet = await Bouquet.findByPk(id, {
+            include: ImageBouquet,
         });
 
         if (!bouqouet) {

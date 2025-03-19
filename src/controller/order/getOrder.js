@@ -1,4 +1,4 @@
-const {Order,OrderItem,Bouqouet} = require('../../database/models')
+const {Order,OrderItem,Bouquet} = require('../../database/models')
 
 const getOrder = async (req,res) => {
     try {
@@ -12,7 +12,7 @@ const getOrder = async (req,res) => {
                 model : OrderItem,
                 required : true,
                 include : {
-                    model : Bouqouet,
+                    model : Bouquet,
                     attributes : {
                         exclude : ["createdAt","updatedAt"]
                     }

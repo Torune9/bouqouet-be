@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Bouqouet, ImageBouqouet, sequelize } = require("../../database/models");
+const { Bouquet, ImageBouquet, sequelize } = require("../../database/models");
 const { cloudinary } = require("../../services/utils/cloudinary");
 const deleteFiles = require("../../services/utils/deleteFile");
 
@@ -38,8 +38,8 @@ const updateBouqouet = async (req, res) => {
         // FIX: Pastikan `imageId` adalah array string & tidak mengandung 'undefined'
         imageId = imageId.filter(id => id && id !== "undefined").map(String);
 
-        const bouqouet = await Bouqouet.findByPk(id, {
-            include: ImageBouqouet,
+        const bouqouet = await Bouquet.findByPk(id, {
+            include: ImageBouquet,
             transaction,
         });
 
@@ -51,7 +51,7 @@ const updateBouqouet = async (req, res) => {
         // FIX: Hanya jalankan query `findAll` jika `imageId` tidak kosong
         let imagesToUpdate = [];
         if (imageId.length > 0) {
-            imagesToUpdate = await ImageBouqouet.findAll({
+            imagesToUpdate = await ImageBouquet.findAll({
                 where: {
                     id: { [Op.in]: imageId },
                     bouqouetId,
@@ -96,7 +96,7 @@ const updateBouqouet = async (req, res) => {
                 await Promise.all(deletePromises);
 
                 // Hapus gambar lama dari database
-                await ImageBouqouet.destroy({
+                await ImageBouquet.destroy({
                     where: {
                         id: { [Op.in]: imageId },
                     },

@@ -1,4 +1,4 @@
-const { ImageBouqouet, sequelize } = require("../../database/models");
+const { ImageBouquet, sequelize } = require("../../database/models");
 const { cloudinary } = require("../../services/utils/cloudinary");
 const deleteFiles = require("../../services/utils/deleteFile");
 
@@ -29,7 +29,7 @@ const addImageBouquet = async (req, res) => {
                 bouqouetId,
                 path: path,
             }));
-            var imageBouquet = await ImageBouqouet.bulkCreate(temp, { transaction });
+            var imageBouquet = await ImageBouquet.bulkCreate(temp, { transaction });
         }
 
         await transaction.commit()

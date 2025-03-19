@@ -1,11 +1,11 @@
-const { ImageBouqouet } = require("../../database/models");
+const { ImageBouquet } = require("../../database/models");
 const deleteFiles = require("../../services/utils/deleteFile");
 
 const deleteBouquetImage = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const bouquet = await ImageBouqouet.findByPk(id);
+        const bouquet = await ImageBouquet.findByPk(id);
 
         if (!bouquet) {
             return res.status(404).json({ message: "Bouquet tidak ditemukan" });

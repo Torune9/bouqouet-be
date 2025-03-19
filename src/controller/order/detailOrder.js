@@ -1,4 +1,4 @@
-const { OrderItem, Bouqouet } = require("../../database/models");
+const { OrderItem, Bouquet } = require("../../database/models");
 
 const detailOrder = async (req, res) => {
     try {
@@ -9,7 +9,7 @@ const detailOrder = async (req, res) => {
                 id,
             },
             include: {
-                model: Bouqouet,
+                model: Bouquet,
             },
         });
 
