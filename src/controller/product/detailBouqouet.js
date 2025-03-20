@@ -1,10 +1,16 @@
-
-const { Bouquet, sequelize } = require("../../database/models");
+const { Bouquet,ImageBouquet, sequelize } = require("../../database/models");
 
 const getDetailBouqouet = async (req,res)=>{
     try {
         const {id} = req.params
-        const bouquet = await Bouquet.findByPk(id)
+        const bouquet = await Bouquet.findOne({
+            where : {
+                id
+            },
+            include : {
+                model: ImageBouquet
+            }
+        })
         if (!bouquet) {
             return res.status(404).json({
                 message : "data bouqouet tidak ditemukan"

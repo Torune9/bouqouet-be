@@ -1,6 +1,6 @@
-const { ImageBouquet, sequelize } = require("../../database/models");
-const { cloudinary } = require("../../services/utils/cloudinary");
-const deleteFiles = require("../../services/utils/deleteFile");
+const { ImageBouquet, sequelize } = require("../../../database/models");
+const { cloudinary } = require("../../../services/utils/cloudinary");
+const deleteFiles = require("../../../services/utils/deleteFile");
 
 const addImageBouquet = async (req, res) => {
     const transaction = await sequelize.transaction()

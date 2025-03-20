@@ -6,22 +6,22 @@ const { uploadImageProduct } = require("../../services/middleware/uploadFile");
 
 const bouqouetRouter = express.Router();
 
-const addBouqouet = require("../../controller/product/addBouquet");
+const addBouqouet = require("../../controller/product/image/addBouquet");
 const getAllBouqouet = require("../../controller/product/getAllBouqouet");
 const updateBouqouet = require("../../controller/product/updateBouqouet");
 const deleteBouqouet = require("../../controller/product/deleteBouqouet");
 const getDetailBouqouet = require("../../controller/product/detailBouqouet");
 const deleteBouquetImage = require("../../controller/product/deleteBouqouetImage");
-const addImageBouquet = require("../../controller/product/addImageBouquet");
+const addImageBouquet = require("../../controller/product/image/addImageBouquet");
 const authenticate = require("../../services/middleware/authenticate");
 const authorized = require("../../services/middleware/authorization");
 
 
 bouqouetRouter.get("/",getAllBouqouet);
 
-bouqouetRouter.use(authenticate)
-
 bouqouetRouter.get("/:id",getDetailBouqouet);
+
+bouqouetRouter.use(authenticate)
 
 bouqouetRouter.use(authorized)
 

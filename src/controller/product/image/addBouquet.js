@@ -3,11 +3,11 @@ const {
     Category,
     ImageBouquet,
     sequelize,
-} = require("../../database/models");
+} = require("../../../database/models");
 const { matchedData } = require("express-validator");
 
-const deleteFiles = require("../../services/utils/deleteFile");
-const { cloudinary } = require("../../services/utils/cloudinary");
+const deleteFiles = require("../../../services/utils/deleteFile");
+const { cloudinary } = require("../../../services/utils/cloudinary");
 
 const addBouqouet = async (req, res) => {
     const transaction = await sequelize.transaction();
