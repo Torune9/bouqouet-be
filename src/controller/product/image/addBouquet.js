@@ -14,6 +14,8 @@ const addBouqouet = async (req, res) => {
     const files = req.files["image"]
         ? req?.files["image"]?.map((file) => file.path)
         : null;
+        console.log(files);
+        
     try {
         const validated = matchedData(req);
 
@@ -25,7 +27,7 @@ const addBouqouet = async (req, res) => {
             });
         }
 
-        const bouqouet = await Bouquet.create(validated, {
+        const bouquet = await Bouquet.create(validated, {
             transaction,
         });
 
@@ -38,9 +40,11 @@ const addBouqouet = async (req, res) => {
         }
         if (imageUrls) {
             const temp = imageUrls.map((path) => ({
-                bouqouetId: bouqouet.id,
-                path: path,
+                path,
+                bouquetId: bouquet.id,
             }));
+            console.log(temp);
+            
             var image = await ImageBouquet.bulkCreate(temp, { transaction });
         }
 
@@ -49,7 +53,7 @@ const addBouqouet = async (req, res) => {
 
         return res.status(200).json({
             message: "Bouquet berhasil dibuat",
-            data: bouqouet,
+            data: bouquet,
             image,
         });
     } catch (error) {
