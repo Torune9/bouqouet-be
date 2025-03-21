@@ -1,5 +1,5 @@
-const { ImageBouquet } = require("../../database/models");
-const deleteFiles = require("../../services/utils/deleteFile");
+const { ImageBouquet } = require("../../../database/models");
+const deleteFiles = require("../../../services/utils/deleteFile");
 
 const deleteBouquetImage = async (req, res) => {
     try {
