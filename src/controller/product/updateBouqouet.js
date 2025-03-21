@@ -13,6 +13,7 @@ const updateBouquet = async (req, res) => {
         const { id } = req.params;
         let { name, price, stock, description, categoryId, imageId } = req.body;
 
+        // Pastikan imageId selalu dalam bentuk array
         if (!imageId || imageId === "undefined") {
             imageId = [];
         } else if (typeof imageId === "string") {
@@ -28,6 +29,7 @@ const updateBouquet = async (req, res) => {
 
         imageId = imageId.filter(id => id && id !== "undefined").map(String);
 
+        // Pastikan bouquet ada
         const bouquet = await Bouquet.findByPk(id, {
             include: ImageBouquet,
             transaction,
@@ -38,6 +40,7 @@ const updateBouquet = async (req, res) => {
             return res.status(404).json({ message: "Bouquet tidak ditemukan" });
         }
 
+        // Cari gambar yang akan diperbarui (hanya jika imageId diberikan)
         let imagesToUpdate = [];
         if (imageId.length > 0) {
             imagesToUpdate = await ImageBouquet.findAll({
@@ -49,15 +52,17 @@ const updateBouquet = async (req, res) => {
             });
         }
 
-        let imageUrls = [];
+        // Upload gambar baru ke Cloudinary (jika ada)
+        let newImageUrls = [];
         if (newFiles.length > 0) {
             const uploadPromises = newFiles.map((file) =>
                 cloudinary.uploader.upload(file, { folder: "bouquets" })
             );
             const uploadResults = await Promise.all(uploadPromises);
-            imageUrls = uploadResults.map((result) => result.secure_url);
+            newImageUrls = uploadResults.map((result) => result.secure_url);
         }
 
+        // Update bouquet (jika ada perubahan)
         await bouquet.update(
             {
                 name: name?.trim() || bouquet.name,
@@ -69,22 +74,34 @@ const updateBouquet = async (req, res) => {
             { transaction }
         );
 
-        if (imageId.length > 0 && imageUrls.length > 0) {
+        // Update gambar yang sudah ada
+        if (imageId.length > 0 && newImageUrls.length > 0) {
             const updateImagePromises = imagesToUpdate.map(async (img, index) => {
-                if (imageUrls[index]) {
+                if (newImageUrls[index]) {
                     const publicId = img.path.split("/").pop().split(".")[0];
                     await cloudinary.uploader.destroy(publicId);
-                    return img.update({ path: imageUrls[index] }, { transaction });
+                    return img.update({ path: newImageUrls[index] }, { transaction });
                 }
                 return null;
             });
             await Promise.all(updateImagePromises);
         }
 
+        // Tambahkan gambar baru ke database jika ada
+        if (newImageUrls.length > 0) {
+            const newImageRecords = newImageUrls.map((url) => ({
+                bouquetId: id,
+                path: url,
+            }));
+            await ImageBouquet.bulkCreate(newImageRecords, { transaction });
+        }
+
+        // Commit transaksi jika semua berhasil
         await transaction.commit();
         deleteFiles(newFiles, "bouquets");
 
         return res.json({ message: "Bouquet berhasil diperbarui", data: bouquet });
+
     } catch (error) {
         console.error(error);
         await transaction.rollback();
