@@ -11,6 +11,7 @@ const updateBouquet = async (req, res) => {
 
     try {
         const { id } = req.params;
+        const {restore} = req.query
         let { name, price, stock, description, categoryId, imageId } = req.body;
 
         // Pastikan imageId selalu dalam bentuk array
@@ -33,6 +34,7 @@ const updateBouquet = async (req, res) => {
         const bouquet = await Bouquet.findByPk(id, {
             include: ImageBouquet,
             transaction,
+            paranoid : restore ? !restore : true
         });
 
         if (!bouquet) {
@@ -63,16 +65,24 @@ const updateBouquet = async (req, res) => {
         }
 
         // Update bouquet (jika ada perubahan)
-        await bouquet.update(
-            {
-                name: name?.trim() || bouquet.name,
-                price: price !== "" ? price ?? bouquet.price : bouquet.price,
-                stock: stock !== "" ? stock ?? bouquet.stock : bouquet.stock,
-                description: description?.trim() || bouquet.description,
-                categoryId: categoryId !== "" ? categoryId ?? bouquet.categoryId : bouquet.categoryId,
-            },
-            { transaction }
-        );
+        if (!restore) {
+            await bouquet.update(
+                {
+                    name: name?.trim() || bouquet.name,
+                    price: price !== "" ? price ?? bouquet.price : bouquet.price,
+                    stock: stock !== "" ? stock ?? bouquet.stock : bouquet.stock,
+                    description: description?.trim() || bouquet.description,
+                    categoryId: categoryId !== "" ? categoryId ?? bouquet.categoryId : bouquet.categoryId,
+                },
+                { transaction }
+            );
+        }else{ 
+            await bouquet.restore({
+                where: {
+                  id
+                },
+              });
+        }
 
         // Update gambar yang sudah ada
         if (imageId.length > 0 && newImageUrls.length > 0) {
