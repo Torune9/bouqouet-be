@@ -8,6 +8,7 @@ const deleteBouqouet = async (req, res) => {
         const { force } = req.query;
         const bouqouet = await Bouquet.findByPk(id, {
             include: ImageBouquet,
+            paranoid : false
         });
 
         if (!bouqouet) {
