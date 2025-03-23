@@ -65,7 +65,7 @@ const updateBouquet = async (req, res) => {
         }
 
         // Update bouquet (jika ada perubahan)
-        if (!restore) {
+        if (restore == "false") {
             await bouquet.update(
                 {
                     name: name?.trim() || bouquet.name,
