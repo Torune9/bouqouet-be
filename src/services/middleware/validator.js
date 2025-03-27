@@ -49,7 +49,7 @@ const validateBouqouet = [
 
 // validasi data address
 const validateAddress =[
-    body(["street","district","city","postalCode","province","userId"]).trim()
+    body(["street","district","regency","city","postalCode","province","userId"]).trim()
     .notEmpty().escape().withMessage("field tidak boleh kosong"),
     validated
 ]

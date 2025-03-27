@@ -18,6 +18,9 @@ module.exports = {
       district: {
         type: Sequelize.STRING(50)
       },
+      regency: {
+        type: Sequelize.STRING(50)
+      },
       city: {
         type: Sequelize.STRING(50)
       },
