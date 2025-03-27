@@ -20,6 +20,9 @@ module.exports = {
             lastName: {
                 type: Sequelize.STRING(100),
             },
+            phoneNumber :{
+                type : Sequelize.STRING(20)
+            },
             image: {
                 type: Sequelize.STRING,
                 allowNull : true
