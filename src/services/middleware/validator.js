@@ -28,6 +28,7 @@ const validateRegister = [
 //validasi data profile
 const validateProfile = [
     body(["firstName", "lastName"]).notEmpty().trim().escape(),
+    body("phoneNumber").trim().escape(),
     validated
 ];
 
