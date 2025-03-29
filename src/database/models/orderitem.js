@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   OrderItem.init({
     orderId: DataTypes.UUID,
-    bouqouetId: DataTypes.UUID,
+    bouquetId: DataTypes.UUID,
     quantity: DataTypes.INTEGER
   }, {
     sequelize,
