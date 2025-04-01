@@ -28,9 +28,9 @@ const createOrder = async (req, res) => {
             }
         );
 
-        const orderItems = items.map((item) => ({
+        const orderItems = await items.map((item) => ({
             orderId: newOrder.id,
-            bouqouetId: item.id,
+            bouquetId: item.id,
             quantity: item.quantity,
         }));
 
@@ -47,7 +47,7 @@ const createOrder = async (req, res) => {
                 secure: true,
             },
             allow_retry: true,
-            item_details: items.map((item) => ({
+            item_details: await items.map((item) => ({
                 id: item.id,
                 price: item.price,
                 quantity: item.quantity,
