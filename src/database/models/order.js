@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
             totalPrice: DataTypes.BIGINT,
             userId: DataTypes.UUID,
             addressId: DataTypes.UUID,
+            token : DataTypes.STRING,
+            midtransOrderId : DataTypes.STRING,
         },
         {
             sequelize,

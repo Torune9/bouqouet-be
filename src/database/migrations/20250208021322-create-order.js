@@ -21,6 +21,12 @@ module.exports = {
       addressId: {
         type: Sequelize.UUID
       },
+      token : {
+        type : Sequelize.STRING
+      },
+      midtransOrderId : {
+        type : Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
