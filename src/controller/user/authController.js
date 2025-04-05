@@ -53,10 +53,13 @@ const signIn = async (req, res) => {
             roleName : user.Role.name,
             roleId: user.Role.id
         });
-
+        
         return res.status(200).json({
             message: "login berhasil",
-            data: detailUser,
+            data: {
+                ...detailUser,
+                role : user.Role,
+            },
             token,
         });
     } catch (error) {
