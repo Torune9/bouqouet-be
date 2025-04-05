@@ -14,16 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "neondb_owner",
-    "password": "npg_XM3G6bmLSarl",
-    "database": "neondb",
-    "host": "ep-flat-term-a12nb1jq-pooler.ap-southeast-1.aws.neon.tech",
-    "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "username": "postgres",
+    "password": "postgres",
+    "database": "snfbouquet",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   }
 }
