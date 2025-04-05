@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+require('pg')
+
 const express = require("express");
 const mainRouter = require("./src/router/main");
 const app = express();
