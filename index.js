@@ -25,9 +25,9 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => res.send('Hello from Vercel'));
 
+app.listen(port, () => {
+    console.log(`server running on port ${port}`);
+});
 
 module.exports = app;
 
-// app.listen(port, () => {
-//     console.log(`server running on port ${port}`);
-// });
