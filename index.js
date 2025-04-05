@@ -21,11 +21,12 @@ app.use(urlEncode);
 
 app.use("/api/v1/", mainRouter);
 
+app.get('/', (req, res) => res.send('Hello from Vercel'));
+
 app.use((req, res, next) => {
     res.status(404).send("Sorry can't find that!");
 });
 
-app.get('/', (req, res) => res.send('Hello from Vercel'));
 
 module.exports = app;
 
