@@ -1,3 +1,4 @@
 /node_modules
 /.env
 /src/assets/
+/src/database/config/config.json
